@@ -12,7 +12,7 @@ const swaggerUI = require('swagger-ui-express')
 const swaggerOptions = {
   swaggerDefinition:{
     info:{
-      title:'Student Server API By Marco Rojas - Z23354683',
+      title:'Student Server API',
       version:'1.0.0'
     }
   },
@@ -361,29 +361,6 @@ function checkStudentExists(files,obj,fname,lname, res) {
   }
   return false;
   
-  
-  // console.log(files.length)
-  // fname = files.pop();
-  // if (!fname)
-  //   return;
-  // fs.readFile(fname, "utf8", function(err, data) {
-  //   if (err) {
-  //     return res.status(500).send({"message":"error - internal server error"});
-  //   } else {
-  //     //arr.push(JSON.parse(data));
-  //     student = JSON.parse(data);
-  //     console.log(student)
-  //     //if(student.last_name == || student.first_name)
-  //     if (files.length == 0) {
-  //       return false;
-  //       // var obj = {};
-  //       // obj.students = arr;
-  //       // return res.status(200).send(obj);
-  //     } else {
-  //       readFiles(files,arr,res);
-  //     }
-   // }
- // });  
 } 
 
 app.listen(5678); //start the server
