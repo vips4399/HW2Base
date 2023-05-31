@@ -4,7 +4,8 @@
   "description": "",
   "main": "studentserver.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node studentserver.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
