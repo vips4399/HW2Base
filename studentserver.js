@@ -10,18 +10,18 @@ const { type } = require('os');
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUI = require('swagger-ui-express')
 const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      title: 'Student Server API',
-      version: '1.0.0'
+  swaggerDefinition:{
+    info:{
+      title:'Student Server API',
+      version:'1.0.0'
     }
   },
-  apis: ['studentserver.js']
+  apis:['studentserver.js']
 
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+app.use('/api-docs',swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -76,41 +76,41 @@ app.post('/students', function(req, res) {//creates a new student obj with all o
   obj.enrolled = req.body.enrolled;
 
   var str = JSON.stringify(obj, null, 2);
-  const fs = require('fs');
+const fs = require('fs');
 
-  const dir = 'students';
+const dir = 'students';
 
-  fs.access(dir, (err) => {
-    if (err) {
-      fs.mkdir(dir, (err) => {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log('Directory created successfully!');
-        }
-      });
-    } else {
-      console.log('Directory already exists!');
-    }
-    if (checkStudentExists() == false) {
-      fs.writeFile("students/" + record_id + ".json", str, function (err) {//writes to the students directory
-        var rsp_obj = {};
-        if (err) {
-          rsp_obj.record_id = -1;
-          rsp_obj.message = 'error - unable to create resource';
-          return res.status(200).send(rsp_obj);
-        } else {
-          rsp_obj.record_id = record_id;
-          rsp_obj.message = 'successfully created';
-          return res.status(201).send(rsp_obj);
-        }
-      }) //end writeFile method
-    } else {
-      console.log("Student exists")
-    }
-  })
+fs.access(dir, (err) => {
+  if (err) {
+    fs.mkdir(dir, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Directory created successfully!');
+      }
+    });
+  } else {    
+    console.log('Directory already exists!');
+  }
+  if (checkStudentExists()==false){
+    fs.writeFile("students/" + record_id + ".json", str, function(err) {//writes to the students directory
+      var rsp_obj = {};
+      if(err) {
+        rsp_obj.record_id = -1;
+        rsp_obj.message = 'error - unable to create resource';
+        return res.status(200).send(rsp_obj);
+      } else {
+        rsp_obj.record_id = record_id;
+        rsp_obj.message = 'successfully created';
+        return res.status(201).send(rsp_obj);
+      }
+    }) //end writeFile method
+  }else{
+    console.log("Student exists")
+}
+})
 
-
+  
 }); //end post method
 /**
  * @swagger
@@ -134,7 +134,7 @@ app.post('/students', function(req, res) {//creates a new student obj with all o
  app.get('/students/:record_id', function(req, res) {
   var record_id = req.params.record_id;
 
-  fs.readFile("students/" + record_id + ".json", "utf8", function (err, data) {
+  fs.readFile("students/" + record_id + ".json", "utf8", function(err, data) {
     if (err) {
       var rsp_obj = {};
       rsp_obj.record_id = record_id;
@@ -144,15 +144,15 @@ app.post('/students', function(req, res) {//creates a new student obj with all o
       return res.status(200).send(data);
     }
   });
-});
+}); 
 
-function readFiles(files, arr, res) {
+function readFiles(files,arr,res) {
   fname = files.pop();
   if (!fname)
     return;
-  fs.readFile(fname, "utf8", function (err, data) {
+  fs.readFile(fname, "utf8", function(err, data) {
     if (err) {
-      return res.status(500).send({ "message": "error - internal server error" });
+      return res.status(500).send({"message":"error - internal server error"});
     } else {
       arr.push(JSON.parse(data));
       if (files.length == 0) {
@@ -160,10 +160,10 @@ function readFiles(files, arr, res) {
         obj.students = arr;
         return res.status(200).send(obj);
       } else {
-        readFiles(files, arr, res);
+        readFiles(files,arr,res);
       }
     }
-  });
+  });  
 }
 // app.get('/students/:record_id', function(req, res) {
 //   var record_id = req.params.record_id;
@@ -236,9 +236,9 @@ app.get('/students', function(req, res) {
 
   glob("students/*.json", null, function (err, files) {
     if (err) {
-      return res.status(500).send({ "message": "error - internal server error" });
+      return res.status(500).send({"message":"error - internal server error"});
     }
-    readFiles(files, [], res);
+    readFiles(files,[],res);
   });
 
 });
@@ -302,13 +302,13 @@ app.put('/students/:record_id', function(req, res) {
   var str = JSON.stringify(obj, null, 2);
 
   //check if file exists
-  fs.stat(fname, function (err) {
-    if (err == null) {
+  fs.stat(fname, function(err) {
+    if(err == null) {
 
       //file exists
-      fs.writeFile("students/" + record_id + ".json", str, function (err) {
+      fs.writeFile("students/" + record_id + ".json", str, function(err) {
         var rsp_obj = {};
-        if (err) {
+        if(err) {
           rsp_obj.record_id = record_id;
           rsp_obj.message = 'error - unable to update resource';
           return res.status(200).send(rsp_obj);
@@ -318,9 +318,9 @@ app.put('/students/:record_id', function(req, res) {
           return res.status(201).send(rsp_obj);
         }
       });
-
+      
     } else {
-      rsp_obj.record_id = record_id; const fs = require('fs');
+      rsp_obj.record_id = record_id;const fs = require('fs');
       rsp_obj.message = 'error - resource not found';
       return res.status(404).send(rsp_obj);
     }
@@ -346,12 +346,12 @@ app.put('/students/:record_id', function(req, res) {
  *        description: record deleted
  *      404:
  *        description: error - resource not found
- */
-app.delete('/students/:record_id', function (req, res) {
+ */ 
+app.delete('/students/:record_id', function(req, res) {
   var record_id = req.params.record_id;
   var fname = "students/" + record_id + ".json";
 
-  fs.unlink(fname, function (err) {
+  fs.unlink(fname, function(err) {
     var rsp_obj = {};
     if (err) {
       rsp_obj.record_id = record_id;
@@ -363,11 +363,11 @@ app.delete('/students/:record_id', function (req, res) {
       return res.status(200).send(rsp_obj);
     }
   });
-
+  
 
 }); //end delete method
 
-function checkStudentExists(files, obj, fname, lname, res) {
+function checkStudentExists(files,obj,fname,lname, res) {
   console.log("checkStudentExists")
   listOfStudents = obj;
   for (let recordId in listOfStudents) {
@@ -377,11 +377,9 @@ function checkStudentExists(files, obj, fname, lname, res) {
     }
   }
   return false;
+  
+} 
 
-}
-
-let port = 5678;
-app.listen(port); //start the server
+app.listen(5678); //start the server
 //console.log(checkStudentExists("John","Doe",))
 console.log('Server is running...');
-console.log('http://localhost:' + port);
