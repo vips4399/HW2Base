@@ -30,35 +30,40 @@ app.use(express.static('./public'));
 /**
  * @swagger
  * /students:
- *  post:
- *    description: Creates a new student object with all of its attributes.
- *    parameters:
- *    - name: first_name
- *      description: Student's first name
- *      in: formData
- *      required: true
- *      type: String
- *    - name: last_name
- *      description: Student's last name
- *      in: formData
- *      required: true
- *      type: String
- *    - name: gpa
- *      description: Student's gpa
- *      in: formData
- *      required: true
- *      type: String 
- *    - name: enrolled
- *      description: Student's enrolled status
- *      in: formData
- *      required: true
- *      type: String
- *    responses:
- *      200:
- *        description: unable to create resource
- *      201:
- *        description: Success
- */ 
+ *   post:
+ *     summary: Creates a new student object with all of its attributes.
+ *     description: Use this endpoint to create a new student.
+ *     parameters:
+ *       - name: first_name
+ *         description: Student's first name
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: last_name
+ *         description: Student's last name
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: gpa
+ *         description: Student's GPA
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: enrolled
+ *         description: Student's enrolled status
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Unable to create resource.
+ *       201:
+ *         description: Success. The student object has been created.
+ */
 app.post('/students', function(req, res) {//creates a new student obj with all of it's attributes.
 
   var record_id = new Date().getTime();
@@ -109,21 +114,23 @@ fs.access(dir, (err) => {
 }); //end post method
 /**
  * @swagger
- * /students/:recordid :
- *  get:
- *    description: gets a student by record id.
- *    parameters:
- *    - name: record_id
- *      description: Student's Record ID
- *      in: formData
- *      required: true
- *      type: String
- *    responses:
- *      404:
- *        description: error - resource not found
- *      200:
- *        description: Success
- */ 
+ * /students/{recordid}:
+ *   get:
+ *     summary: Get a student by record ID.
+ *     description: Use this endpoint to retrieve a student based on their record ID.
+ *     parameters:
+ *       - name: recordid
+ *         description: Student's record ID
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success. The student object has been retrieved.
+ *       404:
+ *         description: Error. The requested resource was not found.
+ */
  app.get('/students/:record_id', function(req, res) {
   var record_id = req.params.record_id;
 
@@ -212,12 +219,15 @@ function readFiles(files,arr,res) {
 /**
  * @swagger
  * /students:
- *  get:
- *    description: get array of all students
- *    responses:
- *      500:
- *        description: error - internal server error
- */ 
+ *   get:
+ *     summary: Get an array of all students.
+ *     description: Use this endpoint to retrieve an array of all students.
+ *     responses:
+ *       200:
+ *         description: Success. An array of students has been retrieved.
+ *       500:
+ *         description: Error. Internal server error occurred.
+ */
 app.get('/students', function(req, res) {
   console.log("get students")
   var obj = {};
@@ -234,43 +244,49 @@ app.get('/students', function(req, res) {
 });
 /**
  * @swagger
- * /students:record_id :
- *  put:
- *    description: updates existing student by record ID.
- *    parameters:
- *    - name: record_id
- *      description: Student's record ID
- *      in: formData
- *      required: true
- *      type: String
- *    - name: first_name
- *      description: Student's first name
- *      in: formData
- *      required: true
- *      type: String
- *    - name: last_name
- *      description: Student's last name
- *      in: formData
- *      required: true
- *      type: String
- *    - name: gpa
- *      description: Student's gpa
- *      in: formData
- *      required: true
- *      type: String 
- *    - name: enrolled
- *      description: Student's enrolled status
- *      in: formData
- *      required: true
- *      type: String
- *    responses:
- *      200:
- *        description: error - unable to update resource
- *      201:
- *        description: Success
- *      404:
- *        description: error - resource not found
- */ 
+ * /students/{record_id}:
+ *   put:
+ *     summary: Update an existing student by record ID.
+ *     description: Use this endpoint to update an existing student based on their record ID.
+ *     parameters:
+ *       - name: record_id
+ *         description: Student's record ID
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: first_name
+ *         description: Student's first name
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: last_name
+ *         description: Student's last name
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: gpa
+ *         description: Student's GPA
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - name: enrolled
+ *         description: Student's enrolled status
+ *         in: formData
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Error. Unable to update resource.
+ *       201:
+ *         description: Success. The student has been updated.
+ *       404:
+ *         description: Error. The requested resource was not found.
+ */
 app.put('/students/:record_id', function(req, res) {
   var record_id = req.params.record_id;
   var fname = "students/" + record_id + ".json";
@@ -323,7 +339,8 @@ app.put('/students/:record_id', function(req, res) {
  *      description: Student's Record ID
  *      in: formData
  *      required: true
- *      type: String
+ *      schema:
+ *        type: string
  *    responses:
  *      200:
  *        description: record deleted
