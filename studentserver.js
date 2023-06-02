@@ -331,13 +331,13 @@ app.put('/students/:record_id', function(req, res) {
 
 /**
  * @swagger
- * /students:record_id :
+ * /students/{record_id} :
  *  delete:
  *    description: Deletes a from the student directory by their record ID.
  *    parameters:
  *    - name: record_id
  *      description: Student's Record ID
- *      in: formData
+ *      in: path
  *      required: true
  *      schema:
  *        type: string
@@ -346,7 +346,7 @@ app.put('/students/:record_id', function(req, res) {
  *        description: record deleted
  *      404:
  *        description: error - resource not found
- */ 
+ */
 app.delete('/students/:record_id', function(req, res) {
   var record_id = req.params.record_id;
   var fname = "students/" + record_id + ".json";
